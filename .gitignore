@@ -4,3 +4,4 @@ __pycache__
 app_old.py
 output.xml
 constants.py
+geckodriver.log
