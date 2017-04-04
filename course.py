@@ -5,6 +5,7 @@ import sys
 from connect import Connect
 from interaction import Interaction
 from quiz_taker import QuizTaker
+from transcript import Transcript
 import csv
 
 class Course:
@@ -15,6 +16,7 @@ class Course:
         self.before = before
         self.interactions = []
         self.quiz_takers = []
+        self.transcripts = []
 
         # self.report_quiz_interactions()
 
@@ -108,3 +110,30 @@ class Course:
                               principal_id=quiz_taker.attrib['principal-id']
                               )
                 )
+
+    def report_user_training_transcripts(self):
+        with urllib.request.urlopen(
+                '{}report-user-training-transcripts&principal-id={}&session={}'.format(
+                    constants.CONNECT_BASE_URL,
+                    self.principal_id,
+                    Connect.cookie)) as response:
+            xml = response.read()
+
+            root = ET.fromstring(xml)
+            status = root.find('status').attrib['code']
+
+            if status != 'ok':
+                sys.exit('ERROR RETRIEVING TRANSCRIPTS FOR SCO {}'.format(self.sco_id))
+
+            for transcript in root.findall('report-user-training-transcripts/row'):
+                if transcript.find('login').text.split('@')[1] not in constants.USERS_TO_EXCLUDE_FROM_TOTALS:
+                    self.transcripts.append(
+                        Transcript(user=transcript.find('principal-name').text,
+                                  login=transcript.find('login').text,
+                                  status=transcript.attrib['status'],
+                                  date=transcript.find('date-taken').text,
+                                  transcript_id=transcript.attrib['transcript-id'],
+                                  principal_id=transcript.attrib['principal-id'],
+                                  type=transcript.attrib['type']
+                                  )
+                    )

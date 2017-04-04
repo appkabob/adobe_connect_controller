@@ -1,13 +1,14 @@
 from selenium import webdriver
 
 class User:
-    def __init__(self, email, first_name, last_name, oauth_token, oauth_token_secret, id):
+    def __init__(self, email, first_name, last_name, **kwargs):
         self.email = email
         self.first_name = first_name
         self.last_name = last_name
-        self.oauth_token = oauth_token
-        self.oauth_token_secret = oauth_token_secret
-        self.id = id
+        self.attributes = kwargs
+        # self.oauth_token = oauth_token
+        # self.oauth_token_secret = oauth_token_secret
+        # self.id = id
 
     def __repr__(self):
         return "<User {}>".format(self.email)
