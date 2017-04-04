@@ -1,7 +1,6 @@
-import urllib
-from connect import Connect
-from user import User
-from datetime import date, timedelta, datetime
+from datetime import timedelta, datetime
+from .connect import Connect
+from .user import User
 
 
 class Meeting:

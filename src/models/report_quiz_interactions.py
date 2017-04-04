@@ -1,5 +1,5 @@
-from connect import Connect
-from course import Course
+from .connect import Connect
+from .course import Course
 
 Connect()
 course = Course('TE 3', 3489311, '2017-01-01', '2017-03-06')

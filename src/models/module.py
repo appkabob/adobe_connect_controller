@@ -1,6 +1,6 @@
 import constants
 from datetime import datetime
-from course import Course
+from .course import Course
 
 class Module:
     def __init__(self, name, after='2012-01-01', before=datetime.today().strftime("%Y-%m-%d")):

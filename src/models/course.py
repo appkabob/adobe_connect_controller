@@ -2,11 +2,12 @@ import constants
 import urllib.request
 import xml.etree.ElementTree as ET
 import sys
-from connect import Connect
-from interaction import Interaction
-from quiz_taker import QuizTaker
-from transcript import Transcript
 import csv
+from .connect import Connect
+from .interaction import Interaction
+from .quiz_taker import QuizTaker
+from .transcript import Transcript
+
 
 class Course:
     def __init__(self, name, sco_id, after, before):
