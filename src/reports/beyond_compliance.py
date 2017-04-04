@@ -1,5 +1,5 @@
-from .src.models.connect import Connect
-from .src.models.course import Course
+from ..models.connect import Connect
+from ..models.course import Course
 from reportlab.lib.enums import TA_JUSTIFY
 from reportlab.lib.pagesizes import letter
 from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer, Image

@@ -1,5 +1,5 @@
-from ..src.models.connect import Connect
-from ..src.models.meeting import Meeting
+from src.models.connect import Connect
+from src.models.meeting import Meeting
 
 
 Connect()
