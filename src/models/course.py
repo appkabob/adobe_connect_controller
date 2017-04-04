@@ -74,7 +74,7 @@ class Course:
                             display_seq=display_seq))
 
     def save_to_csv(self):
-        with open('./output/{}_raw_answers_{}_{}.csv'.format(self.name, self.after, self.before), 'w', newline="\n") as f:
+        with open('../output/{}_raw_answers_{}_{}.csv'.format(self.name, self.after, self.before), 'w', newline="\n") as f:
             a = csv.writer(f, delimiter=",")
             a.writerow(['Date', 'Interaction ID', 'User', 'Display Seq', 'Question', 'Answer', 'Score'])
             for interaction in self.interactions:

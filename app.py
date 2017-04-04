@@ -1,9 +1,9 @@
 import os
 
-import constants
-from .src.models.connect import Connect
-from .src.models.module import Module
-from .src.models.user import User
+# import constants
+# from .src.models.connect import Connect
+# from .src.models.module import Module
+# from .src.models.user import User
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.by import By
