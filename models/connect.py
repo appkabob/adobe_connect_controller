@@ -59,5 +59,5 @@ class Connect:
     @classmethod
     def get_sco_contents(cls, sco_id, filters={}):
         filters['sco-id'] = sco_id
-        filters['sort-date-begin'] = 'desc'
+        # filters['sort-date-begin'] = 'desc'
         return cls.send_request('sco-contents', **filters)

@@ -1,13 +1,13 @@
-from datetime import timedelta, datetime
+from datetime import timedelta, date, datetime
 import constants
 from .connect import Connect
 from .user import User
 
 
 class Meeting:
-    def __init__(self, name, date, scoid):
+    def __init__(self, name, date_begin, scoid):
         self.name = name
-        self.date = datetime.strptime(date, '%Y-%m-%d')
+        self.date = datetime.strptime(date_begin[:-10], '%Y-%m-%dT%H:%M:%S')  # datetime.strptime(date, '%Y-%m-%dT%')
         self.scoid = scoid
         self.attendees = []
 
@@ -41,22 +41,24 @@ class Meeting:
         return self.attendees
 
     @classmethod
-    def fetch_meetings_by_folder(cls, folder_sco_id, datestring=None):
+    def fetch_meetings_by_folder(cls, folder_sco_id, on_or_after=None, before=None, sort='desc', limit=0):
         filters = {}
-        if datestring:
-            date = datetime.strptime(datestring, '%Y-%m-%d')
-            plus_one_day = date + timedelta(days=1)
-            filters = {
-                'filter-gte-date-begin': date.strftime('%Y-%m-%d'),
-                'filter-lt-date-begin': plus_one_day.strftime('%Y-%m-%d')
-            }
+        if on_or_after:
+            filters['filter-gte-date-begin'] = on_or_after
+        if before:
+            filters['filter-lt-date-begin'] = before
+        if sort:
+            filters['sort-date-begin'] = sort
+        if limit > 0:
+            filters['filter-rows'] = limit
+
         rows = Connect.get_sco_contents(folder_sco_id, filters)
         meetings = []
         for meeting in rows:
             meetings.append(
                 Meeting(
                     meeting.find('name').text,
-                    meeting.find('date-begin').text[:10],
+                    meeting.find('date-begin').text,
                     meeting.attrib['sco-id']
                 )
             )
