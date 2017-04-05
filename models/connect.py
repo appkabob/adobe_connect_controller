@@ -1,6 +1,6 @@
 import urllib.request
 import xml.etree.ElementTree as ET
-from adobe_connect_controller import constants
+import constants
 
 
 class Connect:

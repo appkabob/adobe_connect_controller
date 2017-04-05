@@ -1,5 +1,5 @@
-from adobe_connect_controller.connect.src.models.connect import Connect
-from adobe_connect_controller.connect.src.models.meeting import Meeting
+from models.connect import Connect
+from models.meeting import Meeting
 
 
 Connect()
