@@ -1,4 +1,5 @@
 from datetime import timedelta, datetime
+import constants
 from .connect import Connect
 from .user import User
 
@@ -13,17 +14,17 @@ class Meeting:
     def __repr__(self):
         return "<Meeting {} {}>".format(self.date, self.name)
 
-    def get_attendees(self):
+    def get_attendees(self, exclude_admins=True):
         filters = {
             'sco-id': self.scoid,
             'filter-gte-date-created': self.date.isoformat(),
             'filter-lt-date-created': (self.date + timedelta(1)).isoformat()
         }
         rows = Connect.send_request(action='report-meeting-attendance', **filters)
-        users_to_exclude = ['xXxXxXxXxXx',
-                            'crystal.conley@cecillinois.org',
-                            'terri.carman@cecillinois.org'
-                            ]
+
+        users_to_exclude = []
+        if exclude_admins: users_to_exclude = constants.MOODLE_ADMIN_USERS
+
         for attendee in rows:
             if attendee.find('login').text not in [user.email for user in self.attendees] and \
                             attendee.find('login').text not in users_to_exclude:
@@ -39,45 +40,28 @@ class Meeting:
 
         return self.attendees
 
+    @classmethod
+    def fetch_meetings_by_folder(cls, folder_sco_id, datestring=None):
+        filters = {}
+        if datestring:
+            date = datetime.strptime(datestring, '%Y-%m-%d')
+            plus_one_day = date + timedelta(days=1)
+            filters = {
+                'filter-gte-date-begin': date.strftime('%Y-%m-%d'),
+                'filter-lt-date-begin': plus_one_day.strftime('%Y-%m-%d')
+            }
+        rows = Connect.get_sco_contents(folder_sco_id, filters)
+        meetings = []
+        for meeting in rows:
+            meetings.append(
+                Meeting(
+                    meeting.find('name').text,
+                    meeting.find('date-begin').text[:10],
+                    meeting.attrib['sco-id']
+                )
+            )
 
-
-        # with urllib.request.urlopen(
-        #         '{}report-quiz-interactions&sco-id={}&filter-gte-date-created={}&filter-lt-date-created={}&session={}'.format(
-        #             constants.CONNECT_BASE_URL,
-        #             self.sco_id,
-        #             self.after,
-        #             self.before,
-        #             Connect.cookie)) as response:
-        #     xml = response.read().decode('utf-8')
-        #
-        # root = ET.fromstring(xml)
-        # status = root.find('status').attrib['code']
-        #
-        # if status != 'ok':
-        #     sys.exit('ERROR: "{}" RETRIEVING ANSWERS FOR SCO {}'.format(root.find('status').attrib['code'], self.sco_id))
-        #
-        # for interaction in root.findall('report-quiz-interactions/row'):
-        #     user = interaction.find('name').text
-        #     score = interaction.attrib['score']
-        #     date = interaction.find('date-created').text
-        #     interaction_id = interaction.attrib['interaction-id']
-        #     transcript_id = interaction.attrib['transcript-id']
-        #     display_seq = interaction.attrib['display-seq']
-        #     question = None
-        #     answer = None
-        #
-        #     if interaction.find('description') != None:
-        #         # question = interaction.find('description').text.decode('utf-8')
-        #         question = repr(interaction.find('description').text)
-        #     if interaction.find('response') != None:
-        #         answer = interaction.find('response').text
-        #
-        #     self.interactions.append(
-        #         Interaction(user=user,
-        #                     question=question,
-        #                     answer=answer,
-        #                     score=score,
-        #                     date=date,
-        #                     interaction_id=interaction_id,
-        #                     transcript_id=transcript_id,
-        #                     display_seq=display_seq))
+        if len(meetings) == 1:
+            return meetings[0]
+        return meetings
+        # print(meetings)

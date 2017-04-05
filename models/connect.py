@@ -52,4 +52,12 @@ class Connect:
             return cls.status
         else:
             cls.status = root.find('status').attrib['code']
+            if action == 'sco-contents':
+                return root.findall('scos/sco')
             return root.findall('{}/row'.format(action))
+
+    @classmethod
+    def get_sco_contents(cls, sco_id, filters={}):
+        filters['sco-id'] = sco_id
+        filters['sort-date-begin'] = 'desc'
+        return cls.send_request('sco-contents', **filters)
