@@ -17,8 +17,8 @@ class Meeting:
     def get_attendees(self, exclude_admins=True):
         filters = {
             'sco-id': self.scoid,
-            'filter-gte-date-created': self.date.isoformat(),
-            'filter-lt-date-created': (self.date + timedelta(1)).isoformat()
+            'filter-gte-date-created': self.date.strftime('%Y-%m-%d'),
+            'filter-lt-date-created': (self.date + timedelta(1)).strftime('%Y-%m-%d')
         }
         rows = Connect.send_request(action='report-meeting-attendance', **filters)
 
@@ -39,6 +39,7 @@ class Meeting:
                 )
 
         return self.attendees
+
 
     @classmethod
     def fetch_meetings_by_folder(cls, folder_sco_id, on_or_after=None, before=None, sort='desc', limit=0):

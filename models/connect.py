@@ -52,8 +52,13 @@ class Connect:
             return cls.status
         else:
             cls.status = root.find('status').attrib['code']
+            # print(xml)
             if action == 'sco-contents':
                 return root.findall('scos/sco')
+            elif action == 'principal-list':
+                return root.findall('principal-list/principal')
+            elif action == 'principal-info':
+                return root.find('principal')
             return root.findall('{}/row'.format(action))
 
     @classmethod
