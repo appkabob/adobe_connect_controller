@@ -54,6 +54,8 @@ class Meeting:
             filters['filter-rows'] = limit
 
         rows = Connect.get_sco_contents(folder_sco_id, filters)
+        if not rows:
+            raise ValueError('No meetings found on date {}'.format(on_or_after))
         meetings = []
         for meeting in rows:
             meetings.append(
