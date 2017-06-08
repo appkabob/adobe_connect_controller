@@ -12,6 +12,7 @@ class User:
         self.fetch_detailed_user_info()
         # self.oauth_token = oauth_token
         # self.oauth_token_secret = oauth_token_secret
+        # test
 
     def __repr__(self):
         return "<User {}>".format(self.email)
