@@ -1,4 +1,7 @@
-import constants
+try:
+    import constants
+except ImportError:
+    pass
 import urllib.request
 import xml.etree.ElementTree as ET
 import sys

@@ -1,4 +1,7 @@
-import constants
+try:
+    import constants
+except ImportError:
+    pass
 from datetime import datetime
 from .course import Course
 

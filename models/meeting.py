@@ -1,5 +1,9 @@
+import os
 from datetime import timedelta, date, datetime
-import constants
+try:
+    import constants
+except ImportError:
+    pass
 from .connect import Connect
 from .user import User
 
