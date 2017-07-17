@@ -1,3 +1,36 @@
+from .connect import Connect
+
+
+class AdobeConnectCourse:
+    def __init__(self, **kwargs):
+        for kwarg in kwargs:
+            setattr(self, kwarg, kwargs[kwarg])
+
+    def __repr__(self):
+        return '<ConnectCourse {}>'.format(self.name)
+
+    @classmethod
+    def fetch_by_sco_id(cls, sco_id):
+        course = Connect.send_request1('sco-info', 'sco-id={}'.format(sco_id))[0]
+        return cls(**course)
+
+    def report_quiz_interactions(self, on_or_after=None, before=None):
+        conditions = ['sco-id={}'.format(self.sco_id)]
+        if on_or_after:
+            conditions.append('filter-gte-date-created={}'.format(on_or_after))
+        if before:
+            conditions.append('filter-lt-date-created={}'.format(before))
+        interactions = Connect.send_request1('report-quiz-interactions', conditions)
+        return [Interaction(**interaction) for interaction in interactions]
+
+
+
+
+
+
+
+### --- V1 TO BE DEPRECATED --- ###
+
 try:
     import constants
 except ImportError:
@@ -6,7 +39,7 @@ import urllib.request
 import xml.etree.ElementTree as ET
 import sys
 import csv
-from .connect import Connect
+
 from .interaction import Interaction
 from .quiz_taker import QuizTaker
 from .transcript import Transcript
@@ -76,8 +109,8 @@ class Course:
                             transcript_id=transcript_id,
                             display_seq=display_seq))
 
-    def save_to_csv(self):
-        with open('./output/{}_raw_answersHELLO_{}_{}.csv'.format(self.name, self.after, self.before), 'w', newline="\n") as f:
+    def save_to_csv(self, subfolder):
+        with open('./output/{}/{}_raw_answersHELLO_{}_{}.csv'.format(subfolder, self.name, self.after, self.before), 'w', newline="\n") as f:
             a = csv.writer(f, delimiter=",")
             a.writerow(['Date', 'Interaction ID', 'User', 'Display Seq', 'Question', 'Answer', 'Score'])
             for interaction in self.interactions:
