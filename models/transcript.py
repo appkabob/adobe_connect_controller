@@ -1,4 +1,5 @@
 from lib.adobe_connect_controller.models.connect import Connect
+from lib.adobe_connect_controller.models.interaction import Interaction
 
 
 class Transcript:

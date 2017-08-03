@@ -89,18 +89,20 @@ class Connect:
             return cls.status
         else:
             cls.status = root.find('status').attrib['code']
-            # print(xml)
+
             if action == 'sco-contents':
-                return root.findall('scos/sco')
+                xml_records = root.findall('scos/sco')
             elif action == 'principal-list':
-                return root.findall('principal-list/principal')
+                xml_records = root.findall('principal-list/principal')
             elif action == 'principal-info':
-                return root.find('principal')
+                xml_records = root.find('principal')
             elif action == 'report-course-status':
-                return root.find('report-course-status')
+                xml_records = root.find('report-course-status')
             elif action == 'sco-info':
-                return cls.convert_xml_to_object(root.find('sco'))
-            return cls.convert_xml_to_object(root.findall('{}/row'.format(action)))
+                xml_records = root.find('sco')
+            else:
+                xml_records = root.findall('{}/row'.format(action))
+            return cls.convert_xml_to_object(xml_records)
 
     @staticmethod
     def convert_xml_to_object(xml):
