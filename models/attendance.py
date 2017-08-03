@@ -1,7 +1,7 @@
 from datetime import datetime
 
 import constants
-from lib.adobe_connect_controller.models.connect import Connect
+from .connect import Connect
 
 
 class Attendance:

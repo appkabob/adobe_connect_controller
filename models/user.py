@@ -1,6 +1,4 @@
-from selenium import webdriver
-
-from lib.adobe_connect_controller.models.attendance import Attendance
+from .attendance import Attendance
 from .connect import Connect
 
 

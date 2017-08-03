@@ -1,5 +1,5 @@
-from lib.adobe_connect_controller.models.connect import Connect
-from lib.adobe_connect_controller.models.interaction import Interaction
+from .connect import Connect
+from .interaction import Interaction
 
 
 class Transcript:

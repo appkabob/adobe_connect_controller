@@ -19,7 +19,8 @@ class Connect:
         root = ET.fromstring(xml)
         status = root.find('status').attrib['code']
         if status != 'ok':
-            cls.status('ERROR RETRIEVING CONNECT COOKIE: {}'.format(status))
+            raise IOError('ERROR RETRIEVING CONNECT COOKIE: {}'.format(status))
+                # cls.status('ERROR RETRIEVING CONNECT COOKIE: {}'.format(status))
         else:
             cls.status = root.find('status').attrib['code']
             cls.cookie = root.find('common/cookie').text
@@ -85,6 +86,7 @@ class Connect:
         root = ET.fromstring(xml)
         status = root.find('status').attrib['code']
         if status != 'ok':
+            raise IOError('ERROR SENDING {} REQUEST TO ADOBE CONNECT: {}'.format(action, status))
             cls.status = 'ERROR SENDING {} REQUEST TO ADOBE CONNECT: {}'.format(action, status)
             return cls.status
         else:
