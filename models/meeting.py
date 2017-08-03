@@ -19,7 +19,7 @@ class Meeting:
 
 
     def __repr__(self):
-        return "<Meeting {}>".format(self.sco_id)
+        return "<Meeting {} {}>".format(self.name, self.date_begin[:10])
 
     def get_attendances(self, on_or_after=None, before=None, exclude_admins=True):
         return Attendance.fetch_by_meeting_sco_id(self.sco_id, on_or_after, before, exclude_admins)
