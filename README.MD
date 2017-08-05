@@ -36,9 +36,8 @@ for interaction in interactions:
 meetings = Meeting.fetch_by_folder_sco_id(56789)
 for meeting in meetings:
     print(meeting.name, meeting.date_begin)
-
-	for attendee in meeting.get_attendees(exclude_admins=False):
-	    print(attendee)
+    for attendee in meeting.get_attendees(exclude_admins=False):
+		print(attendee)
 ```
 
 ## Object Definitions
