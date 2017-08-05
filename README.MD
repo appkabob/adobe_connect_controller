@@ -41,7 +41,9 @@ for meeting in meetings:
 ```
 
 ## Object Definitions
+
 ###Attendees vs. Attendances
+
 An Attendance is created in Connect every time a user accesses a meeting. If a user got disconnected from a meeting and then rejoined, they are considered to have 2 Attendances.
 
 That means if you wanted to tally up their total attendance time, you would need to find all of their Attendances for that meeting and get the combined sum.
@@ -49,6 +51,7 @@ That means if you wanted to tally up their total attendance time, you would need
 An Attendee, on the other hand, is a unique person who joined the meeting (regardless of the number of times). But attendees are not exactly the same as Users:
 
 ### Attendees vs. Users
+
 Users in this library correspond to registered users in the system, who have a principal-id and a login. However, not all Attendees correspond Users, because they could have attended a Meeting as a Guest, in which case they just enter their name upon joining the meeting, and do not have all the same information as a regular User.
 
 ## Syntax
