@@ -25,7 +25,10 @@ class Transcript:
         return [Transcript(**transcript) for transcript in transcripts]
 
     def report_quiz_interactions(self, on_or_after=None, before=None):
-        conditions = ['sco-id={}'.format(self.sco_id)]
+        conditions = [
+            'sco-id={}'.format(self.sco_id),
+            'filter-transcript-id={}'.format(self.transcript_id)
+        ]
         if on_or_after:
             conditions.append('filter-gte-date-created={}'.format(on_or_after))
         if before:

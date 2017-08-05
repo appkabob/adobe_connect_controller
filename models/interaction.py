@@ -1,5 +1,6 @@
 class Interaction:
     def __init__(self, **kwargs):
+        self.response = None
         for kwarg in kwargs:
             setattr(self, kwarg, kwargs[kwarg])
 
