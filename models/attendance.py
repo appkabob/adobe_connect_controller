@@ -19,7 +19,7 @@ class Attendance:
         if before: conditions.append('filter-lt-date-created={}'.format(before))
         attendances = Connect.send_request1('report-meeting-attendance', conditions)
         users_to_exclude = []
-        if exclude_admins: users_to_exclude = constants.MOODLE_ADMIN_USERS
+        if exclude_admins: users_to_exclude = constants.CONNECT_ADMIN_USERS
         for attendance in attendances:
             if 'login' not in attendance:  # if user attended as guest without being logged in
                 attendance['login'] = None

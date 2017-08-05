@@ -9,7 +9,7 @@ Adobe Connect's built-in reporting leaves something to be desired. This library 
 
 ## Getting Started
 
-First, rename constants_sample.py to constants.py, open it and enter your Adobe Connect login credentials.
+First, rename constants_sample.py to constants.py and move it into your Project's root directory. Then open it and replace all placeholders in curly brackets {}, including your Adobe Connect login credentials.
 
 At the start of your script, create a new `Connect()` object. This will authenticate you via the API. Then you are ready to start making calls.
 
