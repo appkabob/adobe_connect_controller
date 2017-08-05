@@ -1,7 +1,7 @@
 ## Purpose
 
 A small, object-oriented library for interacting with Adobe Connect
-courses, meetings, users, and transcripts via the Adobe Connect API. Designed to work with Adobe Connect 8 and later.
+courses, meetings, users, and transcripts via the Adobe Connect API.
 
 ## Motivation
 
@@ -42,6 +42,8 @@ for meeting in meetings:
 
 ## Object Definitions
 
+Some things to note with seemingly similar objects:
+
 ###Attendees vs. Attendances
 
 An Attendance is created in Connect every time a user accesses a meeting. If a user got disconnected from a meeting and then rejoined, they are considered to have 2 Attendances.
@@ -66,7 +68,7 @@ and so on.
 
 ## Supported Actions
 
-Supported Adobe Connect actions currently include:
+Designed to work with Adobe Connect 8 and later. Supported Adobe Connect actions currently include:
 
 - common-info
 - login
