@@ -22,12 +22,12 @@ for attendance in attendances:
 	print(attendance)
 print(sum([attendance.duration_in_minutes() for attendance in attendances]))
 
-# PRINT OUT THE RESULTS OF EVERY ATTEMPT A USER MADE
+# PRINT THE DATE AND STATUS OF EVERY TRANSCRIPT FOR A USER
 transcripts = Transcript.fetch_by_principal_id(34567)
 for transcript in transcripts:
 	print(transcript.date_taken, transcript.login, transcript.status)
 
-# PRINT EVERY ANSWER A USER GAVE TO EACH QUIZ QUESTION ON A PARTICULAR TRANSCRIPT
+# PRINT EVERY ANSWER A USER GAVE TO EACH QUIZ OR SURVEY QUESTION ON A PARTICULAR TRANSCRIPT
 interactions = transcripts[0].report_quiz_interactions()
 for interaction in interactions:
 	print(interaction.display_seq, interaction.description, interaction.response)
