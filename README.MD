@@ -42,9 +42,7 @@ for meeting in meetings:
 
 ## Object Definitions
 
-Some things to note with seemingly similar objects:
-
-###Attendees vs. Attendances
+### Attendees vs. Attendances
 
 An Attendance is created in Connect every time a user accesses a meeting. If a user got disconnected from a meeting and then rejoined, they are considered to have 2 Attendances.
 
