@@ -21,34 +21,15 @@ class User:
     def __repr__(self):
         return "<User {}>".format(self.login)
 
-    def fetch_principal_id(self):
-        filters = {'filter-login': self.email}
-        user_info = Connect.send_request('principal-list', **filters)[0]
-        self.principalid = user_info.attrib.get('principal-id')
-
-    def fetch_separate_firstname_lastname(self):
-        if not self.principalid:
-            self.fetch_principal_id()
-        if not self.first_name or not self.last_name or self.first_name == self.last_name:
-            filters = {'principal-id': self.principalid}
-            user_details = Connect.send_request('principal-info', **filters)
-            self.first_name = user_details.find('first-name').text
-            self.last_name = user_details.find('last-name').text
-
-    def fetch_detailed_user_info(self):
-        if not self.principalid:
-            self.fetch_principal_id()
-        self.fetch_separate_firstname_lastname()
-
     @classmethod
     def fetch_by_principal_id(cls, principal_id):
         conditions = 'principal-id={}'.format(principal_id)
-        return [cls(**user) for user in Connect.send_request1('principal-info', conditions)][0]
+        return [cls(**user) for user in Connect.send_request('principal-info', conditions)][0]
 
     @classmethod
     def fetch_quick_by_login(cls, login):
         conditions = 'filter-login={}'.format(login)
-        return [cls(**user) for user in Connect.send_request1('principal-list', conditions)][0]
+        return [cls(**user) for user in Connect.send_request('principal-list', conditions)][0]
 
     @classmethod
     def fetch_full_by_login(cls, login):

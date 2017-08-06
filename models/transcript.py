@@ -21,7 +21,7 @@ class Transcript:
     @classmethod
     def fetch_by_principal_id(cls, principal_id):
         conditions = ['principal-id={}'.format(principal_id)]
-        transcripts = Connect.send_request1('report-user-training-transcripts', conditions)
+        transcripts = Connect.send_request('report-user-training-transcripts', conditions)
         return [Transcript(**transcript) for transcript in transcripts]
 
     def report_quiz_interactions(self, on_or_after=None, before=None):
@@ -33,5 +33,5 @@ class Transcript:
             conditions.append('filter-gte-date-created={}'.format(on_or_after))
         if before:
             conditions.append('filter-lt-date-created={}'.format(before))
-        interactions = Connect.send_request1('report-quiz-interactions', conditions)
+        interactions = Connect.send_request('report-quiz-interactions', conditions)
         return [Interaction(**interaction) for interaction in interactions]

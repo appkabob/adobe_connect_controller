@@ -17,7 +17,7 @@ class Attendance:
         conditions = ['sco-id={}'.format(sco_id)]
         if on_or_after: conditions.append('filter-gte-date-created={}'.format(on_or_after))
         if before: conditions.append('filter-lt-date-created={}'.format(before))
-        attendances = Connect.send_request1('report-meeting-attendance', conditions)
+        attendances = Connect.send_request('report-meeting-attendance', conditions)
         users_to_exclude = []
         if exclude_admins: users_to_exclude = constants.CONNECT_ADMIN_USERS
         for attendance in attendances:

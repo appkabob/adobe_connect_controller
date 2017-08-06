@@ -1,11 +1,6 @@
 import urllib.request
 import xml.etree.ElementTree as ET
-from pprint import pprint
-
-try:
-    import constants
-except ImportError:
-    pass
+import constants
 
 
 class Connect:
@@ -26,9 +21,6 @@ class Connect:
             cls.cookie = root.find('common/cookie').text
             cls.login()
 
-    # def __repr__(self):
-    #     return "<Connect {}>".format(self.status)
-
     @classmethod
     def login(cls):
         with urllib.request.urlopen(
@@ -45,30 +37,7 @@ class Connect:
             cls.status = root.find('status').attrib['code']
 
     @classmethod
-    def send_request(cls, action, **kwargs):
-        url = '{}{}&session={}'.format(constants.CONNECT_BASE_URL, action, cls.cookie)
-        for key in kwargs:
-            url += "&{0}={1}".format(key, kwargs[key])
-        with urllib.request.urlopen(url) as response:
-            xml = response.read()
-        root = ET.fromstring(xml)
-        status = root.find('status').attrib['code']
-        if status != 'ok':
-            cls.status = 'ERROR SENDING {} REQUEST TO ADOBE CONNECT: {}'.format(action, status)
-            return cls.status
-        else:
-            cls.status = root.find('status').attrib['code']
-            # print(xml)
-            if action == 'sco-contents':
-                return root.findall('scos/sco')
-            elif action == 'principal-list':
-                return root.findall('principal-list/principal')
-            elif action == 'principal-info':
-                return root.find('principal')
-            return root.findall('{}/row'.format(action))
-
-    @classmethod
-    def send_request1(cls, action, conditions):
+    def send_request(cls, action, conditions):
         url = '{}{}&session={}'.format(constants.CONNECT_BASE_URL, action, cls.cookie)
         if isinstance(conditions, list):
             url += '&{}'.format('&'.join(conditions))
@@ -120,9 +89,3 @@ class Connect:
                 cleaned_data[key.replace('-', '_')] = data[key]
             output.append(cleaned_data)
         return output
-
-    @classmethod
-    def get_sco_contents(cls, sco_id, filters={}):
-        filters['sco-id'] = sco_id
-        # filters['sort-date-begin'] = 'desc'
-        return cls.send_request('sco-contents', **filters)
