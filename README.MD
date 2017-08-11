@@ -14,6 +14,12 @@ First, rename constants_sample.py to constants.py and move it into your Project'
 At the start of your script, create a new `Connect()` object. This will authenticate you via the API. Then you are ready to start making calls.
 
 ```python
+from models.connect import Connect
+from models.attendance import Attendance
+from models.transcript import Transcript
+from models.interaction import Interaction
+from models.meeting import Meeting
+
 Connect()  # authenticates with your Connect instance, now we're ready to make calls
 
 # PRINT A LIST OF ATTENDANCES FOR A MEETING, AND THE TOTAL COMBINED DURATION
