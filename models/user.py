@@ -58,3 +58,8 @@ class User:
         # PEC 2268963
         conditions = 'group-id={}&principal-id={}&is-member=true'.format(group_id, self.principal_id)
         return Connect.send_request('group-membership-update', conditions)
+
+    @classmethod
+    def fetch_by_group_id(cls, group_id):
+        conditions = 'group-id={}&filter-is-member=true'.format(group_id)
+        return [cls(**user) for user in Connect.send_request('principal-list', conditions)]

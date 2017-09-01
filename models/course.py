@@ -1,9 +1,11 @@
 from .interaction import Interaction
+from .quiz_taker import QuizTaker
 from .connect import Connect
 
 
 class Course:
     def __init__(self, **kwargs):
+        self.quiz_takers = []
         for kwarg in kwargs:
             setattr(self, kwarg, kwargs[kwarg])
 
@@ -42,3 +44,6 @@ class Course:
             conditions.append('filter-lt-date-created={}'.format(before))
         interactions = Connect.send_request('report-quiz-interactions', conditions)
         return [Interaction(**interaction) for interaction in interactions]
+
+    def report_quiz_takers(self):
+        return QuizTaker.fetch_by_sco_id(self.sco_id)
