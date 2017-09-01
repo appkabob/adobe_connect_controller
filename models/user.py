@@ -3,16 +3,6 @@ from .connect import Connect
 
 
 class User:
-    # def __init__(self, email, first_name=None, last_name=None, **kwargs):
-    #     self.email = email
-    #     self.first_name = first_name
-    #     self.last_name = last_name
-    #     self.attributes = kwargs
-    #     self.principalid = None
-    #     self.fetch_detailed_user_info()
-    #     # self.oauth_token = oauth_token
-    #     # self.oauth_token_secret = oauth_token_secret
-
     def __init__(self, **kwargs):
         self.attendances = {}
         for kwarg in kwargs:
@@ -29,7 +19,9 @@ class User:
     @classmethod
     def fetch_quick_by_login(cls, login):
         conditions = 'filter-login={}'.format(login)
-        return [cls(**user) for user in Connect.send_request('principal-list', conditions)][0]
+        users = [cls(**user) for user in Connect.send_request('principal-list', conditions)]
+        if users: return users[0]
+        return None
 
     @classmethod
     def fetch_full_by_login(cls, login):
@@ -56,25 +48,13 @@ class User:
         }
         return self.attendances[sco_id]
 
+    @classmethod
+    def create_in_connect(cls, login, first_name, last_name, password):
+        conditions = 'login={}&email={}&first-name={}&last-name={}&password={}&has-children=false&type=user'.format(
+            login, login, first_name, last_name, password)
+        return [cls(**user) for user in Connect.send_request('principal-update', conditions)][0]
 
-
-
-    # @classmethod
-    # def load_from_dnn(cls):
-    #     browser = webdriver.Firefox()
-    #     browser.get('http://seleniumhq.org/')
-
-
-    # def save_to_db(self):
-    #     with CursorFromConnectionFromPool() as cursor:
-    #         cursor.execute('INSERT INTO users (email, first_name, last_name, oauth_token, oauth_token_secret) VALUES (%s, %s, %s, %s, %s)',
-    #                        (self.email, self.first_name, self.last_name, self.oauth_token, self.oauth_token_secret))
-    #
-    # @classmethod
-    # def load_from_db_by_email(cls, email):
-    #     with CursorFromConnectionFromPool() as cursor:
-    #         cursor.execute('SELECT * FROM users WHERE email=%s', (email,))
-    #         user_data = cursor.fetchone()
-    #     return cls(email=user_data[1], first_name=user_data[2],
-    #                last_name=user_data[3], oauth_token=user_data[4],
-    #                oauth_token_secret=user_data[5], id=user_data[0])
+    def add_to_group(self, group_id):
+        # PEC 2268963
+        conditions = 'group-id={}&principal-id={}&is-member=true'.format(group_id, self.principal_id)
+        return Connect.send_request('group-membership-update', conditions)

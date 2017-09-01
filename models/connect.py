@@ -65,12 +65,14 @@ class Connect:
                 xml_records = root.findall('scos/sco')
             elif action == 'principal-list':
                 xml_records = root.findall('principal-list/principal')
-            elif action == 'principal-info':
+            elif action == 'principal-info' or action == 'principal-update':
                 xml_records = root.find('principal')
             elif action == 'report-course-status':
                 xml_records = root.find('report-course-status')
             elif action == 'sco-info':
                 xml_records = root.find('sco')
+            elif action == 'group-membership-update':
+                return True
             else:
                 xml_records = root.findall('{}/row'.format(action))
             return cls.convert_xml_to_object(xml_records)
