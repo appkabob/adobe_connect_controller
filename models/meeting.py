@@ -1,3 +1,5 @@
+from datetime import datetime
+
 from .attendance import Attendance
 from .connect import Connect
 from .user import User
@@ -17,6 +19,12 @@ class Meeting:
 
     def get_attendees(self, on_or_after=None, before=None, exclude_admins=True):
         return User.fetch_by_meeting_attendance(self.sco_id, on_or_after, before, exclude_admins)
+
+    def date_begin_as_datetime(self):
+        return datetime.strptime(self.date_begin[:19], '%Y-%m-%dT%H:%M:%S')
+
+    def date_begin_pretty(self):
+        return self.date_begin_as_datetime().strftime('%A, %b %d, %Y at %-I:%M %p')
 
     @classmethod
     def fetch_by_folder_sco_id(cls, sco_id, on_or_after=None, before=None, sort='desc', limit=0, recursive=False):
