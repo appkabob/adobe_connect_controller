@@ -1,5 +1,6 @@
 from datetime import datetime
 
+from lib.adobe_connect_controller.models.interaction import Interaction
 from .attendance import Attendance
 from .connect import Connect
 from .user import User
@@ -25,6 +26,17 @@ class Meeting:
 
     def date_begin_pretty(self):
         return self.date_begin_as_datetime().strftime('%A, %b %d, %Y at %-I:%M %p')
+
+    def report_quiz_interactions(self, on_or_after=None, before=None):
+        conditions = [
+            'sco-id={}'.format(self.sco_id)
+        ]
+        if on_or_after:
+            conditions.append('filter-gte-date-created={}'.format(on_or_after))
+        if before:
+            conditions.append('filter-lt-date-created={}'.format(before))
+        interactions = Connect.send_request('report-quiz-interactions', conditions)
+        return [Interaction(**interaction) for interaction in interactions]
 
     @classmethod
     def fetch_by_folder_sco_id(cls, sco_id, on_or_after=None, before=None, sort='desc', limit=0, recursive=False):
