@@ -50,7 +50,7 @@ class Connect:
         #     url += '&{}'.format(*args)
         # else:
         #     url += '&'.join(*args)
-        with urllib.request.urlopen(url) as response:
+        with urllib.request.urlopen(url) as response:  # , timeout=600
             xml = response.read()
         root = ET.fromstring(xml)
         status = root.find('status').attrib['code']

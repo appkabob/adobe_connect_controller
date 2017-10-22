@@ -10,6 +10,7 @@ class QuizTaker():
         return "<QuizTaker {}>".format(self.login)
 
     @classmethod
-    def fetch_by_sco_id(cls, sco_id):
-        conditions = 'sco-id={}'.format(sco_id)
+    def fetch_by_sco_id(cls, sco_id, on_or_after=None):
+        conditions = ['sco-id={}'.format(sco_id)]
+        if on_or_after: conditions.append('filter-gte-date-created={}'.format(on_or_after))
         return [cls(**quiz_taker) for quiz_taker in Connect.send_request('report-quiz-takers', conditions)]
