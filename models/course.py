@@ -45,5 +45,5 @@ class Course:
         interactions = Connect.send_request('report-quiz-interactions', conditions)
         return [Interaction(**interaction) for interaction in interactions]
 
-    def report_quiz_takers(self, on_or_after=None):
-        return QuizTaker.fetch_by_sco_id(self.sco_id, on_or_after)
+    def report_quiz_takers(self, on_or_after=None, before=None):
+        return QuizTaker.fetch_by_sco_id(self.sco_id, on_or_after, before)
