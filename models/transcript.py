@@ -11,6 +11,17 @@ class Transcript:
     def __repr__(self):
         return "<Transcript {}>".format(self.transcript_id)
 
+    def to_dict(self):
+        return {
+            'date': self.date_taken,
+            'login': self.login,
+            'course': self.name,
+            'status': self.status,
+            'score': self.score,
+            'max_score': self.max_score,
+            'certificate': self.certificate
+        }
+
     @classmethod
     def fetch_by_principal_id(cls, principal_id):
         conditions = ['principal-id={}'.format(principal_id)]
