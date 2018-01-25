@@ -63,3 +63,9 @@ class User:
     def fetch_by_group_id(cls, group_id):
         conditions = 'group-id={}&filter-is-member=true'.format(group_id)
         return [cls(**user) for user in Connect.send_request('principal-list', conditions)]
+
+    def reset_password(self, password):
+        conditions = 'user-id={}&password={}&password-verify={}'.format(self.principal_id, password, password)
+        result = Connect.send_request('user-update-pwd', conditions)
+        return True
+
