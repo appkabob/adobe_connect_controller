@@ -69,3 +69,5 @@ class User:
         result = Connect.send_request('user-update-pwd', conditions)
         return True
 
+    ##for Nick.....
+
