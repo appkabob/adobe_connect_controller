@@ -3,7 +3,7 @@ from .interaction import Interaction
 
 
 class Transcript:
-    """Parameters: user, login, status, date, transcript_id, principal_id, type"""
+    """Parameters: login, status, date-taken, transcript_id, principal_id, type, sco_id, name"""
     def __init__(self, **kwargs):
         for kwarg in kwargs:
             setattr(self, kwarg, kwargs[kwarg])
